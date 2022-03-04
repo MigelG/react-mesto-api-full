@@ -1,0 +1,13 @@
+.place__image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    object-fit: cover;
+    object-position: center;
+    transition: 1s;
+}
+
+.place__image:hover {
+    transform: scale(1.1);
+}

@@ -1,0 +1,6 @@
+.place__image-container {
+    position: relative;
+    padding-bottom: 100%;
+    overflow: hidden;
+    border-radius: 10px 10px 0 0;
+}

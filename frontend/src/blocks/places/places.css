@@ -1,0 +1,14 @@
+.places {
+    width: calc(100% - 2 * 19px);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(282px, 1fr));
+    gap: 20px 17px;
+}
+
+@media screen and (min-width: 622px) {
+    .places {
+        width: 100%;
+        margin: 0;
+    }
+}

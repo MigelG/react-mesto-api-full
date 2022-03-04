@@ -1,0 +1,11 @@
+.register__submit-button {
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: 0em;
+    width: 100%;
+    height: 46px;
+    margin-top: 200px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+}

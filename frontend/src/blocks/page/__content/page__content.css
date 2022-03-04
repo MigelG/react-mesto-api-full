@@ -1,0 +1,19 @@
+.page__content { 
+    color: #fff;
+    font-family: Inter, Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+@media screen and (min-width: 622px) {
+    .page__content {
+        width: calc(100vw - 2 * 19px);
+        max-width: 880px;
+        margin: 0 auto;
+    }
+}

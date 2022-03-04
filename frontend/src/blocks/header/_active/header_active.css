@@ -1,0 +1,11 @@
+.header_active {
+    margin-top: 140px;
+    border-top: 1px solid rgba(84, 84, 84, .7);
+}
+
+@media screen and (min-width: 622px) {
+    .header_active {
+        border-top: none;
+        margin-top: 0;
+    }
+}

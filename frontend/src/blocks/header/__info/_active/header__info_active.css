@@ -1,0 +1,9 @@
+.header__info_active {
+    height: 140px;
+}
+
+@media screen and (min-width: 622px) {
+    .header__info_active {
+        height: 100%;
+    }
+}

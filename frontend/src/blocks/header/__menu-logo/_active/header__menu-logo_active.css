@@ -1,0 +1,17 @@
+.header__menu-logo_active {
+    
+}
+
+.header__menu-logo_active span {
+    display: none;
+}
+
+.header__menu-logo_active::before {
+    top: 9px;
+    transform: rotate(45deg);
+  }
+
+.header__menu-logo_active::after {
+    bottom: 9px;
+    transform: rotate(-45deg);
+}

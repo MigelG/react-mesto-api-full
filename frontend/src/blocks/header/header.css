@@ -1,0 +1,18 @@
+.header {
+    padding: 27px;
+    border-bottom: 1px solid rgba(84, 84, 84, .7);
+    border-top: none;
+    margin-top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 1s;
+}
+
+@media screen and (min-width: 622px) {
+    .header {
+        padding: 45px 0 41px;
+        border-top: none;
+        margin-top: 0;
+    }
+}

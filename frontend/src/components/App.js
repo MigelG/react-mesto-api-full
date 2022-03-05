@@ -28,7 +28,7 @@ function App() {
 
   //Переадресация пользователя
   useEffect(() => {
-    loggedIn ? navigate('/react-mesto-auth') : navigate('/react-mesto-auth/sign-in');
+    loggedIn ? navigate('/') : navigate('/sign-in');
   }, [loggedIn]);
 
   //Запрос на регистрацию
@@ -161,7 +161,7 @@ function App() {
   function handleInfoTooltipClose() {
     setIsInfoTooltipOpen(false);
     if (isInfoTooltipType) {
-      navigate('/react-mesto-auth/sign-in');
+      navigate('/sign-in');
     }
   }
 
@@ -238,7 +238,7 @@ function App() {
           <Header email={currentEmail} handleQuit={handleQuit} loggedIn={loggedIn} />
 
           <Routes>
-            <Route path='/react-mesto-auth' element={
+            <Route path='/' element={
               <>
                 <Main
                   onEditProfile={handleEditProfileClick}
@@ -254,10 +254,10 @@ function App() {
               </>
             } />
 
-            <Route path='/react-mesto-auth/sign-in'
+            <Route path='/sign-in'
               element={<Login onLogin={onLogin} />} />
 
-            <Route path='/react-mesto-auth/sign-up'
+            <Route path='/sign-up'
               element={<Register onRegister={onRegister} />} />
           </Routes>
 

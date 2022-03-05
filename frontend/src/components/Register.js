@@ -30,7 +30,7 @@ function Register({ onRegister }) {
                 password={password}
                 handleChangePassword={handleChangePassword}
                 button='Зарегестрироваться' />
-            <p className='register__option-text'>Уже зарегестрированы? <Link className='register__option-link' to='/react-mesto-auth/sign-in'>Войти</Link></p>
+            <p className='register__option-text'>Уже зарегестрированы? <Link className='register__option-link' to='/sign-in'>Войти</Link></p>
         </div>
     )
 }

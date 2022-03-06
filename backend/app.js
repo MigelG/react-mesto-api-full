@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 const {
   login, createUser,
 } = require('./controllers/users');
-const auth = require('./middlewares/auth');
+// eslint-disable-next-line spaced-comment
+//const auth = require('./middlewares/auth');
 const handleErrors = require('./middlewares/errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const NotFoundError = require('./errors/NotFoundError');
@@ -14,7 +15,9 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://mishukot.nomoredomains.xyz/',
+}));
 app.use(express.json());
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
@@ -47,7 +50,8 @@ app.post('/signup', celebrate({
   }),
 }), createUser);
 
-app.use(auth);
+// eslint-disable-next-line spaced-comment
+//app.use(auth);
 
 app.use('/users', require('./routes/users'));
 app.use('/cards', require('./routes/cards'));

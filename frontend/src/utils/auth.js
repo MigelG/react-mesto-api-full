@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+export const BASE_URL = 'https://api.mishukot.nomoredomains.xyz/';
 
 //Запрос на регистрацию
 export const register = (email, password) => {
@@ -33,7 +33,7 @@ export const signin = (email, password) => {
         });
 }
 
-//Проверка токена
+//Получение информации о пользователе
 export const getContent = token => {
     return fetch(`${BASE_URL}/users/me`, {
         method: 'GET',

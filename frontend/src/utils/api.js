@@ -72,10 +72,12 @@ class Api {
 
 }
 
+const token = localStorage.getItem('token');
+
 const api = new Api({
-    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-29',
+    baseUrl: 'https://api.mishukot.nomoredomains.xyz/',
     headers: {
-        authorization: 'abaeba32-e658-413f-86b2-3d2488ef3044',
+        authorization: token,
         'Content-Type': 'application/json'
     }
 });

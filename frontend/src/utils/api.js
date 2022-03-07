@@ -75,7 +75,7 @@ class Api {
 const token = localStorage.getItem('token');
 
 const api = new Api({
-    baseUrl: 'https://api.mishukot.nomoredomains.xyz/',
+    baseUrl: 'https://api.mishukot.nomoredomains.xyz',
     headers: {
         authorization: token,
         'Content-Type': 'application/json'

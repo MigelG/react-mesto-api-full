@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.mishukot.nomoredomains.xyz/';
+export const BASE_URL = 'https://api.mishukot.nomoredomains.xyz';
 
 //Запрос на регистрацию
 export const register = (email, password) => {

@@ -9,7 +9,7 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import InfoTooltip from './InfoTooltip';
 import { useState, useEffect } from "react";
-import api from "../utils/api";
+import * as api from "../utils/api";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import * as auth from '../utils/auth.js';
@@ -20,6 +20,8 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentEmail, setCurrentEmail] = useState('');
   let navigate = useNavigate();
+
+  const [token, setToken] = useState('');
 
   function handleQuit() {
     localStorage.removeItem('token');
@@ -49,7 +51,7 @@ function App() {
   function onLogin(email, password, setEmail, setPassword) {
     auth.signin(email, password)
       .then(() => {
-        setCurrentEmail(email);
+        getUserInfo();
         setEmail('');
         setPassword('');
         setLoggedIn(true);
@@ -61,49 +63,49 @@ function App() {
       });
   }
 
-  //Проверка токена и авторизация пользователя
+  //Проверка токена и авторизация пользователя при монтировании
   useEffect(() => {
+    getUserInfo();
+  }, []);
+
+  //Получение информации о пользователе по токену
+  function getUserInfo() {
     const token = localStorage.getItem('token');
     if (token) {
+      setToken(token);
       auth.getContent(token)
         .then((res) => {
           if (res) {
             setLoggedIn(true);
+            setCurrentUser(res.data);
             setCurrentEmail(res.data.email);
           }
         })
-        .catch(err => console.log(err));
+        .catch((res) => {
+          console.log(`Что-то пошло не так: ${res.statusText}`);
+        });
     }
-  }, []);
+  }
 
   //Получение карточек при монтировании
   useEffect(() => {
-    api.getCardList()
-      .then(data => {
-        setCards(data);
-      })
-      .catch((res) => {
-        console.log(`Что-то пошло не так: ${res.statusText}`);
-      });
-  }, []);
-
-  //Получение информации о пользователе при монтировании
-  useEffect(() => {
-    api.getUserInfo()
-      .then(data => {
-        setCurrentUser(data);
-      })
-      .catch((res) => {
-        console.log(`Что-то пошло не так: ${res.statusText}`);
-      });
-  }, []);
+    if (loggedIn) {
+      api.getCardList(token)
+        .then(data => {
+          setCards(data.data.reverse());
+        })
+        .catch((res) => {
+          console.log(`Что-то пошло не так: ${res.statusText}`);
+        });
+    }
+  }, [loggedIn, token]);
 
   //Функция лайка карточки
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
-    api.likeCard(card._id, isLiked ? 'DELETE' : 'PUT')
+    const isLiked = card.likes.some(i => i === currentUser._id);
+    api.likeCard(card._id, isLiked ? 'DELETE' : 'PUT', token)
       .then((newCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        setCards((state) => state.map((c) => c._id === card._id ? newCard.data : c));
       })
       .catch((res) => {
         console.log(`Что-то пошло не так: ${res.statusText}`);
@@ -112,7 +114,7 @@ function App() {
 
   //Функция удаления карточки
   function handleCardDelete(card) {
-    api.deleteCard(card.id)
+    api.deleteCard(card.id, token)
       .then(() => {
         setCards((state) => state.filter((c) => c._id !== card.id));
       })
@@ -179,9 +181,9 @@ function App() {
 
   //Обновление информации о пользователе
   function handleUpdateUser(user) {
-    api.saveUserInfo(user)
+    api.saveUserInfo(user, token)
       .then(data => {
-        setCurrentUser(data);
+        setCurrentUser(data.data);
         closeAllPopups();
       })
       .catch((res) => {
@@ -191,9 +193,9 @@ function App() {
 
   //Обновление аватара
   function handleUpdateAvatar(avatar) {
-    api.editAvatar(avatar)
+    api.editAvatar(avatar, token)
       .then(data => {
-        setCurrentUser(data);
+        setCurrentUser(data.data);
         closeAllPopups();
       })
       .catch((res) => {
@@ -203,9 +205,9 @@ function App() {
 
   //Добавление новой карточки
   function handleAddPlace(card) {
-    api.addCard(card)
+    api.addCard(card, token)
       .then(newCard => {
-        setCards([newCard, ...cards]);
+        setCards([newCard.data, ...cards]);
         closeAllPopups();
       })
       .catch((res) => {

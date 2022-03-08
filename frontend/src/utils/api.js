@@ -1,85 +1,74 @@
-class Api {
-    constructor({ baseUrl, headers }) {
-        this._baseUrl = baseUrl;
-        this._headers = headers;
-    }
+export const BASE_URL = 'https://api.mishukot.nomoredomains.xyz';
 
-    getAppInfo() {
-        return Promise.all([this.getUserInfo(), this.getCardList()])
-    }
-
-    getCardList() {
-        return fetch(this._baseUrl + '/cards', {
-            headers: this._headers
-        })
-            .then(this._checkResponse);
-    }
-
-    addCard(data) {
-        return fetch(this._baseUrl + '/cards', {
-            method: 'POST',
-            headers: this._headers,
-            body: JSON.stringify(data),
-        })
-            .then(this._checkResponse);
-    }
-
-    getUserInfo() {
-        return fetch(this._baseUrl + '/users/me', {
-            headers: this._headers
-        })
-            .then(this._checkResponse);
-    }
-
-    saveUserInfo(data) {
-        return fetch(this._baseUrl + '/users/me', {
-            method: 'PATCH',
-            headers: this._headers,
-            body: JSON.stringify(data),
-        })
-            .then(this._checkResponse);
-    }
-
-    deleteCard(id) {
-        return fetch(this._baseUrl + `/cards/${id}`, {
-            method: 'DELETE',
-            headers: this._headers,
-        })
-            .then(this._checkResponse);
-    }
-
-    likeCard(id, method) {
-        return fetch(this._baseUrl + `/cards/likes/${id}`, {
-            method: `${method}`,
-            headers: this._headers,
-        })
-            .then(this._checkResponse);
-    }
-
-    editAvatar(avatar) {
-        return fetch(this._baseUrl + '/users/me/avatar', {
-            method: 'PATCH',
-            headers: this._headers,
-            body: JSON.stringify(avatar),
-        })
-            .then(this._checkResponse);
-    }
-
-    _checkResponse(res) {
-        if (res.ok) { return res.json() }
-        return Promise.reject(res);
-    }
-
-}
-
-const token = localStorage.getItem('token');
-
-const api = new Api({
-    baseUrl: 'https://api.mishukot.nomoredomains.xyz',
-    headers: {
-        authorization: token,
+const headers = (token) => {
+    return {
+        authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
     }
-});
+}
 
-export default api;
+const checkResponse = (res) => {
+    if (res.ok) { return res.json() }
+    return Promise.reject(res);
+}
+
+export const getAppInfo = (token) => {
+    return Promise.all([getUserInfo(token), getCardList(token)])
+}
+
+export const getCardList = (token) => {
+    return fetch(`${BASE_URL}/cards`, {
+        headers: headers(token)
+    })
+        .then(checkResponse);
+}
+
+export const addCard = (data, token) => {
+    return fetch(`${BASE_URL}/cards`, {
+        method: 'POST',
+        headers: headers(token),
+        body: JSON.stringify(data),
+    })
+        .then(checkResponse);
+}
+
+export const getUserInfo = (token) => {
+    return fetch(`${BASE_URL}/users/me`, {
+        headers: headers(token)
+    })
+        .then(checkResponse);
+}
+
+export const saveUserInfo = (data, token) => {
+    return fetch(`${BASE_URL}/users/me`, {
+        method: 'PATCH',
+        headers: headers(token),
+        body: JSON.stringify(data),
+    })
+        .then(checkResponse);
+}
+
+export const deleteCard = (id, token) => {
+    return fetch(`${BASE_URL}/cards/${id}`, {
+        method: 'DELETE',
+        headers: headers(token),
+    })
+        .then(checkResponse);
+}
+
+export const likeCard = (id, method, token) => {
+    return fetch(`${BASE_URL}/cards/${id}/likes`, {
+        method: `${method}`,
+        headers: headers(token),
+    })
+        .then(checkResponse);
+}
+
+export const editAvatar = (avatar, token) => {
+    return fetch(`${BASE_URL}/users/me/avatar`, {
+        method: 'PATCH',
+        headers: headers(token),
+        body: JSON.stringify(avatar),
+    })
+        .then(checkResponse);
+}

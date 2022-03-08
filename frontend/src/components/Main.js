@@ -4,7 +4,6 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Main(props) {
     const currentUser = React.useContext(CurrentUserContext);
-
     return (
         <main className="main">
             <section className="profile">
@@ -21,7 +20,7 @@ function Main(props) {
             </section>
 
             <section className="places">
-                {
+                {props.cards ?
                     props.cards.map((card) => <Card
                         key={card._id}
                         _id={card._id}
@@ -32,7 +31,8 @@ function Main(props) {
                         owner={card.owner}
                         onCardLike={props.onCardLike}
                         onCardDelete={props.onCardDelete}
-                    />)
+                    />) :
+                    null
                 }
             </section>
         </main>
